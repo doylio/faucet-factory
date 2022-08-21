@@ -17,7 +17,7 @@
 
 <style>
 	button {
-		background-color: var(--action-color);
+		background-color: var(--success);
 		padding: 0.8em 1.6em;
 		color: var(--pure-white);
 		border-radius: 4px;
@@ -26,6 +26,6 @@
 	}
 
 	button:hover {
-		background-color: var(--action-hover);
+		background-color: var(--success-light);
 	}
 </style>

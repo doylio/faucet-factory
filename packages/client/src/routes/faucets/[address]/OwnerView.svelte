@@ -105,7 +105,7 @@
 	}
 
 	.copy-link {
-		color: var(--branding-color);
+		color: var(--branding);
 		cursor: pointer;
 	}
 

@@ -1,24 +1,27 @@
 @import '@fontsource/fira-mono';
 
 :root {
-	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	--nav-height: 3em;
+
+	--font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-family: var(--font-family);
+
 	--pure-white: #ffffff;
 	--primary-color: #b9c6d2;
 	--secondary-color: #d0dde9;
 	--tertiary-color: #edf0f8;
-	--branding-color: #E08700;
+	--branding: #E08700;
 	--branding-light: #FFCE85;
-	--action-color: #379634;
-	--action-hover: #42B63E; 
+	--branding-dark: #B86E00;
+	--success: #379634;
+	--success-light: #42B63E; 
+	--success-dark: #32892F;
+	--danger-light: #CF3A3A;
+	--danger: #C53030;
+	--danger-dark: #942424;
 	--text-color: #444444;
-	--nav-height: 3em;
 	--accent-color: #FF9900;
 	--heading-color: rgba(0, 0, 0, 0.7);
-
-
-	--background-without-opacity: rgba(255, 255, 255, 0.7);
-	--column-width: 42rem;
-	--column-margin-top: 4rem;
 }
 
 body {

@@ -15,12 +15,10 @@ function createWeb3Store() {
 	let provider: ethers.providers.Web3Provider;
 
 	const connect = async () => {
-		const metamask = (window as any).ethereum;
-		if (!metamask) {
-			toast.error('Metamask not found');
-			return;
-		}
 		try {
+			const metamask = (window as any).ethereum;
+			if (!metamask) throw new Error('Metamask not found');
+
 			provider = new ethers.providers.Web3Provider(metamask);
 			await provider.send('eth_requestAccounts', []);
 			const signer = provider.getSigner();
@@ -32,7 +30,11 @@ function createWeb3Store() {
 			metamask.on('accountsChanged', handleAccountsChanged);
 			metamask.on('chainChanged', handleChainChanged);
 		} catch (err) {
-			toast.error('Failed to connect');
+			if (err instanceof Error) {
+				toast.error(err.message);
+			} else {
+				toast.error('Failed to connect');
+			}
 		}
 	};
 
@@ -63,30 +65,109 @@ function createWeb3Store() {
 		} catch (err) {}
 	};
 
+	const changeAccount = async () => {
+		try {
+			const metamask = (window as any).ethereum;
+			if (!metamask) {
+				toast.error('Metamash not found');
+				return;
+			}
+			await metamask.request({
+				method: 'wallet_requestPermissions',
+				params: [
+					{
+						eth_accounts: {}
+					}
+				]
+			});
+		} catch (err) {}
+	};
+
+	const changeNetwork = async (chainId: number) => {
+		try {
+			const network = await provider.getNetwork();
+			if (network.chainId == chainId) return;
+
+			const metamask = (window as any).ethereum;
+			if (!metamask) throw new Error('Metamask not found');
+
+			await metamask.request({
+				method: 'wallet_switchEthereumChain',
+				params: [{ chainId: ethers.utils.hexlify(chainId) }]
+			});
+		} catch (error) {
+			if (error instanceof Error) {
+				toast.error(error.message);
+			} else {
+				toast.error('Failed to change networks');
+			}
+		}
+	};
+
 	async function handleAccountsChanged() {
-		const signer = provider.getSigner();
-		const address = await signer.getAddress();
-		update((store) => ({ ...store, signer, address }));
+		try {
+			const signer = provider.getSigner();
+			const address = await signer.getAddress();
+			update((store) => ({ ...store, signer, address }));
+		} catch (err) {
+			if (err instanceof Error) {
+				toast.error(err.message);
+			} else {
+				toast.error('An unknown error occured');
+				console.log(err);
+			}
+		}
 	}
 
 	async function handleChainChanged() {
-		console.log('CHAIN CHANGE');
-		const metamask = (window as any).ethereum;
-		if (!metamask) {
-			toast.error('Metamask not found');
-			return;
+		try {
+			const metamask = (window as any).ethereum;
+			if (!metamask) throw new Error('Metamask not found');
+
+			provider = new ethers.providers.Web3Provider(metamask);
+			const network = await provider.getNetwork();
+			update((store) => ({ ...store, provider, chainId: network.chainId }));
+		} catch (err) {
+			if (err instanceof Error) {
+				toast.error(err.message);
+			} else {
+				toast.error('An unknown error occured');
+				console.log(err);
+			}
 		}
-		provider = new ethers.providers.Web3Provider(metamask);
-		const network = await provider.getNetwork();
-		update((store) => ({ ...store, provider, chainId: network.chainId }));
 	}
 
 	return {
 		subscribe,
 		connect,
 		disconnect,
-		reconnect
+		reconnect,
+		changeAccount,
+		changeNetwork
 	};
 }
 
 export const web3 = createWeb3Store();
+
+export const NETWORKS = [
+	{
+		name: 'Rinkeby',
+		chainId: 123
+	},
+	{
+		name: 'Goerli',
+		chainId: 5
+	},
+	{
+		name: 'Polygon Mumbai',
+		chainId: 80001
+	},
+	{
+		name: 'Optimism Goerli',
+		chainId: 420
+	},
+	{
+		name: 'Arbitrum Goerli',
+		chainId: 421613
+	}
+] as const;
