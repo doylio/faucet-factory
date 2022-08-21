@@ -13,6 +13,7 @@ describe("FaucetToken", function () {
       const token = await FaucetTokenFactory.connect(owner).deploy(
         "Faucet Token",
         "FT",
+        "http://faucet.token.com/img.png",
         18,
         ethers.utils.parseEther("1000"),
         60 * 60 * 24, // 1 day
@@ -22,6 +23,9 @@ describe("FaucetToken", function () {
 
       expect(await token.name()).to.equal("Faucet Token");
       expect(await token.symbol()).to.equal("FT");
+      expect(await token.imageUrl()).to.equal(
+        "http://faucet.token.com/img.png"
+      );
       expect(await token.decimals()).to.equal(18);
       expect(await token.dropletAmount()).to.equal(
         ethers.utils.parseEther("1000")
@@ -41,6 +45,7 @@ describe("FaucetToken", function () {
       faucetToken = await FaucetTokenFactory.connect(owner).deploy(
         "Faucet Token",
         "FT",
+        "http://faucet.token.com/img.png",
         18,
         ethers.utils.parseEther("1000"),
         60 * 60 * 24, // 1 day

@@ -24,7 +24,14 @@ describe("FaucetFactory", function () {
     it("should create a faucet token with the right params", async () => {
       await faucetFactory
         .connect(user1)
-        .createFaucetToken("Token 1", "TK1", 18, 1000, 60);
+        .createFaucetToken(
+          "Token 1",
+          "TK1",
+          "http://image.url.com",
+          18,
+          1000,
+          60
+        );
       expect(await faucetFactory.faucetCount(user1.address)).to.eq(1);
 
       const faucetAddress = await faucetFactory.faucets(user1.address, 0);
@@ -33,6 +40,7 @@ describe("FaucetFactory", function () {
       const faucet = await ethers.getContractAt("FaucetToken", faucetAddress);
       expect(await faucet.name()).to.eq("Token 1");
       expect(await faucet.symbol()).to.eq("TK1");
+      expect(await faucet.imageUrl()).to.eq("http://image.url.com");
       expect(await faucet.decimals()).to.eq(18);
       expect(await faucet.dropletAmount()).to.eq(1000);
       expect(await faucet.claimInterval()).to.eq(60);

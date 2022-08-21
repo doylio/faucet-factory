@@ -13,16 +13,20 @@ contract FaucetToken is ERC20 {
     uint256 public claimInterval;
     uint8 private decimals_;
     address public owner;
+    string public imageUrl;
+
     mapping(address => uint256) public lastClaimedAt;
 
     constructor(
         string memory _name, 
         string memory _symbol,
+        string memory _imageUrl,
         uint8 _decimals,
         uint256 _dropletAmount,
         uint256 _claimInterval,
         address _owner
     ) ERC20(_name, _symbol) {
+        imageUrl = _imageUrl;
         dropletAmount = _dropletAmount;
         claimInterval = _claimInterval;
         decimals_ = _decimals;

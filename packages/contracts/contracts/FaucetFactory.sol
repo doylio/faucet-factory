@@ -12,6 +12,7 @@ contract FaucetFactory {
     function createFaucetToken(
         string memory _name,
         string memory _symbol,
+        string memory _imageUrl,
         uint8 _decimals,
         uint256 _dropletAmount,
         uint256 _claimInterval
@@ -19,6 +20,7 @@ contract FaucetFactory {
         FaucetToken token = new FaucetToken(
             _name,
             _symbol, 
+            _imageUrl,
             _decimals, 
             _dropletAmount, 
             _claimInterval, 
