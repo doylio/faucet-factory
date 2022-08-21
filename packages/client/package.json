@@ -32,6 +32,8 @@
 	"type": "module",
 	"dependencies": {
 		"@fontsource/fira-mono": "^4.5.0",
-		"cookie": "^0.4.1"
+		"@zerodevx/svelte-toast": "^0.7.2",
+		"cookie": "^0.4.1",
+		"ethers": "^5.7.0"
 	}
 }
