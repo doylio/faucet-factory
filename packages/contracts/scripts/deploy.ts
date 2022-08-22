@@ -1,22 +1,26 @@
 import { ethers } from "hardhat";
+import fs from "fs/promises";
+import path from "path";
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  const network = process.env.HARDHAT_NETWORK;
+  const Factory = await ethers.getContractFactory("FaucetFactory");
 
-  const lockedAmount = ethers.utils.parseEther("1");
+  const faucetFactory = await Factory.deploy();
+  await faucetFactory.deployed();
 
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  const timestamp = new Date().toISOString();
 
-  await lock.deployed();
+  await fs.appendFile(
+    path.join(__dirname, "../deployments"),
+    `\n${timestamp} - ${network} :: ${faucetFactory.address}`
+  );
 
-  console.log(`Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`);
+  console.log(
+    `Faucet Factory deployed on ${network} to address ${faucetFactory.address}\r`
+  );
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;

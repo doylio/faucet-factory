@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "compile": "hardhat compile",
-    "test": "hardhat test ./test/**.test.ts"
+    "test": "hardhat test ./test/**.test.ts",
+    "deploy": "hardhat run ./scripts/deploy.ts"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",
@@ -23,6 +24,7 @@
     "@types/mocha": "^9.1.0",
     "@types/node": ">=12.0.0",
     "chai": "^4.2.0",
+    "dotenv": "^16.0.1",
     "ethers": "^5.7.0",
     "hardhat": "^2.10.2",
     "hardhat-gas-reporter": "^1.0.8",
