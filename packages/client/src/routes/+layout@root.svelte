@@ -17,11 +17,7 @@
 	.background {
 		min-height: calc(100vh - var(--nav-height));
 		background-color: var(--primary-color);
-		background: linear-gradient(
-			180deg,
-			var(--primary-color) 0%,
-			var(--secondary-color) 10.45% /* var(--tertiary-color) 41.35% */
-		);
+		background: linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 10.45%);
 		display: flex;
 		flex-direction: column;
 	}
