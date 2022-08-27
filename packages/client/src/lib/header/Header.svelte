@@ -1,11 +1,8 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import logo from './FaucetHound_white.png';
 	import { NETWORKS, web3 } from '../web3';
 	import Button from '$lib/button/Button.svelte';
 	import { truncateAddress } from '$lib/utils';
-
-	$: console.log($web3);
 
 	let ensName = '';
 	$: if ($web3.provider && $web3.address) {
@@ -30,11 +27,29 @@
 			<button class="address" on:click={web3.changeAccount}>
 				{ensName || truncatedAddress}
 			</button>
-			<select class="network-select">
-				{#each NETWORKS as network}
-					<option value={network.chainId}>{network.name}</option>
-				{/each}
-			</select>
+			<div class="network-dropdown">
+				<svg
+					class="chevron"
+					width="18"
+					height="10"
+					viewBox="0 0 22 13"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M2 2L11 11L20 2"
+						stroke="white"
+						stroke-width="3"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					/>
+				</svg>
+				<select class="network-select">
+					{#each NETWORKS as network}
+						<option value={network.chainId}>{network.name}</option>
+					{/each}
+				</select>
+			</div>
 		{:else}
 			<Button on:click={web3.connect}>Connect Wallet</Button>
 		{/if}
@@ -82,23 +97,51 @@
 		cursor: pointer;
 	}
 
-	.network-select {
-		height: 35px;
-		padding: 0.5em;
-		background-color: var(--branding-dark);
-		border-radius: 8px;
+	.network-dropdown {
+		position: relative;
 		margin-left: 0.5em;
-		border: none;
+		background-color: var(--branding-dark);
 		color: var(--pure-white);
-		font-family: var(--font-family);
-		cursor: pointer;
-		text-align: center;
+		stroke: var(--pure-white);
+		border-radius: 8px;
+		overflow: hidden;
+		padding: 0;
 	}
 
-	.address:hover,
-	.network-select:hover {
+	.network-dropdown:hover,
+	.address:hover {
 		background-color: var(--tertiary-color);
 		color: var(--branding-dark);
+		stroke: var(--branding-dark);
+	}
+
+	.network-select {
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		appearance: none;
+		height: 35px;
+		padding: 0.5em;
+		padding-right: 30px;
+		background-color: inherit;
+		color: inherit;
+		border: none;
+		font-family: var(--font-family);
+		font-weight: 400;
+		cursor: pointer;
+		text-align: left;
+	}
+
+	.network-select:focus {
+		outline-style: none;
+	}
+
+	.chevron {
+		position: absolute;
+		right: 10px;
+		top: 13px;
+	}
+	.chevron path {
+		stroke: inherit;
 	}
 
 	@media (min-width: 720px) {
