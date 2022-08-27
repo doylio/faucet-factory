@@ -1,16 +1,17 @@
 <script lang="ts">
 	export let href: string | undefined = undefined;
 	export let width = '';
+	export let type = '';
 </script>
 
 {#if href}
 	<a {href}>
-		<button style="width: {width};">
+		<button style="width: {width};" {type}>
 			<slot />
 		</button>
 	</a>
 {:else}
-	<button on:click style="width: {width};">
+	<button on:click style="width: {width};" {type}>
 		<slot />
 	</button>
 {/if}
