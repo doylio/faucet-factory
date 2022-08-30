@@ -32,9 +32,9 @@ describe("FaucetFactory", function () {
           1000,
           60
         );
-      expect(await faucetFactory.faucetCount(user1.address)).to.eq(1);
+      expect(await faucetFactory.faucetCount()).to.eq(1);
 
-      const faucetAddress = await faucetFactory.faucets(user1.address, 0);
+      const faucetAddress = await faucetFactory.faucets(0);
       expect(faucetAddress).to.not.eq(ethers.constants.AddressZero);
 
       const faucet = await ethers.getContractAt("FaucetToken", faucetAddress);
@@ -46,5 +46,32 @@ describe("FaucetFactory", function () {
       expect(await faucet.claimInterval()).to.eq(60);
       expect(await faucet.owner()).to.eq(user1.address);
     });
+
+    it("should increment when a new faucet is created", async () => {
+      await faucetFactory
+        .connect(user1)
+        .createFaucetToken(
+          "Token 1",
+          "TK1",
+          "http://image.url.com",
+          18,
+          1000,
+          60
+        );
+      expect(await faucetFactory.faucetCount()).to.eq(1);
+
+      await faucetFactory 
+        .connect(user2)
+        .createFaucetToken(
+          "Token 2",
+          "TK2",
+          "http://image.url.com",
+          18,
+          1000,
+          60
+        );
+        
+      expect(await faucetFactory.faucetCount()).to.eq(2);
+    })
   });
 });

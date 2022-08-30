@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import { derived, writable } from 'svelte/store';
 import toast from './toast';
 import { FaucetFactory__factory, type FaucetFactory } from '../typechain-types';
+import { NETWORKS } from './networks';
 
 interface Web3Store {
 	address?: string;
@@ -150,33 +151,11 @@ function createWeb3Store() {
 
 export const web3 = createWeb3Store();
 
-export const NETWORKS = [
-	// {
-	// 	name: 'Rinkeby',
-	// 	chainId: 123
-	// },
-	{
-		name: 'Goerli',
-		chainId: 5,
-		address: '0x0A144236fEB8E6E16863F9e10C8d8442772dfb57'
-	}
-	// {
-	// 	name: 'Polygon Mumbai',
-	// 	chainId: 80001
-	// },
-	// {
-	// 	name: 'Optimism Goerli',
-	// 	chainId: 420
-	// },
-	// {
-	// 	name: 'Arbitrum Goerli',
-	// 	chainId: 421613
-	// }
-] as const;
+
 
 export const faucetFactory = derived(web3, ($web3) => {
 	if (!$web3.signer) return;
 	const deployment = NETWORKS.find((ntwk) => ntwk.chainId === $web3.chainId);
 	if (!deployment) return;
-	return FaucetFactory__factory.connect(deployment.address, $web3.signer);
+	return FaucetFactory__factory.connect(deployment.contractAddress, $web3.signer);
 });

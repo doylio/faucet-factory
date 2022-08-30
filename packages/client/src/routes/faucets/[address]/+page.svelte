@@ -3,7 +3,7 @@
 	import UserView from './UserView.svelte';
 </script>
 
-{#if true}
+{#if false}
 	<OwnerView />
 {:else}
 	<UserView />

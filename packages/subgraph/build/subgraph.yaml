@@ -1,0 +1,43 @@
+specVersion: 0.0.2
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: FaucetFactory
+    network: optimism-goerli
+    source:
+      address: "0x0A144236fEB8E6E16863F9e10C8d8442772dfb57"
+      abi: FaucetFactory
+      startBlock: 733605
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - NewFaucet
+      abis:
+        - name: FaucetFactory
+          file: FaucetFactory/abis/FaucetFactory.json
+      eventHandlers:
+        - event: NewFaucet(uint256,address,address)
+          handler: handleNewFaucet
+      file: FaucetFactory/FaucetFactory.wasm
+templates:
+  - name: FaucetToken
+    kind: ethereum/contract
+    network: optimism-goerli
+    source:
+      abi: FaucetToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      file: FaucetFactory/FaucetFactory.wasm
+      entities:
+        - Claim
+      abis:
+        - name: FaucetToken
+          file: FaucetToken/abis/FaucetToken.json
+      eventHandlers:
+        - event: ClaimDroplet(address,uint256)
+          handler: handleClaimDroplet

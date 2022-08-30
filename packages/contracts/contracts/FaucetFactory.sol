@@ -4,10 +4,14 @@ pragma solidity ^0.8.9;
 import "./FaucetToken.sol";
 
 contract FaucetFactory {
-    event NewFaucet(address faucet);
+    event NewFaucet(
+        uint256 index,
+        address faucet,
+        address owner
+    );
 
-    mapping(address => uint256) public faucetCount;
-    mapping(address => mapping(uint256 => address)) public faucets;
+    uint256 public faucetCount;
+    mapping(uint256 => address) public faucets;
 
     function createFaucetToken(
         string memory _name,
@@ -26,8 +30,8 @@ contract FaucetFactory {
             _claimInterval, 
             msg.sender
         );
-        uint256 index = faucetCount[msg.sender]++;
-        faucets[msg.sender][index] = address(token);
-        emit NewFaucet(address(token));
+        uint256 index = faucetCount++;
+        faucets[index] = address(token);
+        emit NewFaucet(index, address(token), msg.sender);
     }
 }

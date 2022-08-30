@@ -1,0 +1,21 @@
+{
+  "name": "faucet-hound-goerli",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy:arbitrumRinkeby": "graph deploy doylio/faucet-hound-arbitrum-rinkeby subgraph.arbitrumRinkeby.yaml --node https://api.thegraph.com/deploy/",
+    "deploy:goerli": "graph deploy doylio/faucet-hound-goerli subgraph.goerli.yaml --node https://api.thegraph.com/deploy/",
+    "deploy:mumbai": "graph deploy doylio/faucet-hound-mumbai subgraph.mumbai.yaml --node https://api.thegraph.com/deploy/",
+    "deploy:rinkeby": "graph deploy doylio/faucet-hound-rinkeby subgraph.rinkeby.yaml --node https://api.thegraph.com/deploy/",
+    "deploy:fuji": "graph deploy doylio/faucet-hound-fuji subgraph.fuji.yaml --node https://api.thegraph.com/deploy/",
+    "deploy:optimismGoerli": "graph deploy doylio/faucet-hound-optimism-goerli subgraph.optimismGoerli.yaml --node https://api.thegraph.com/deploy/",
+    "create-local": "graph create --node http://localhost:8020/ doylio/faucet-hound-goerli",
+    "remove-local": "graph remove --node http://localhost:8020/ doylio/faucet-hound-goerli",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 doylio/faucet-hound-goerli"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.26.0",
+    "@graphprotocol/graph-ts": "0.24.1"
+  }
+}

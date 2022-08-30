@@ -13,6 +13,26 @@ const config: HardhatUserConfig = {
       url: "https://rpc.ankr.com/eth_goerli",
       accounts: [`0x${DEPLOY_KEY}`],
     },
+    mumbai: {
+      url: "https://polygon-testnet.public.blastapi.io",
+      accounts: [`0x${DEPLOY_KEY}`],
+    },
+    arbitrumRinkeby: {
+      url: "https://rinkeby.arbitrum.io/rpc",
+      accounts: [`0x${DEPLOY_KEY}`],
+    },
+    rinkeby: {
+      url: "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+      accounts: [`0x${DEPLOY_KEY}`],
+    },
+    fuji: {
+      url: "https://rpc.ankr.com/avalanche_fuji",
+      accounts: [`0x${DEPLOY_KEY}`],
+    },
+    optimismGoerli: {
+      url: "https://goerli.optimism.io/",
+      accounts: [`0x${DEPLOY_KEY}`],
+    },
   },
 };
 

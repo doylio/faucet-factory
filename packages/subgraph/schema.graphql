@@ -1,0 +1,20 @@
+type Faucet @entity {
+  id: ID!
+  address: String!
+  name: String!
+  symbol: String!
+  imageUrl: String!
+  decimals: Int!
+  dropletSize: BigInt!
+  claimInterval: Int!
+  owner: String!
+  timestamp: Int!
+}
+
+type Claim @entity {
+  id: ID!
+  faucet: Faucet!
+  claimedBy: String!
+  amount: BigInt!
+  timestamp: Int!
+}

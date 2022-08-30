@@ -1,15 +1,19 @@
 <script lang="ts">
 	import logo from './FaucetHound_white.png';
-	import { NETWORKS, web3 } from '../web3';
+	import { web3 } from '../web3';
+	import { NETWORKS } from '$lib/networks';
 	import Button from '$lib/button/Button.svelte';
 	import { truncateAddress } from '$lib/utils';
 
 	let ensName = '';
 	$: if ($web3.provider && $web3.address) {
-		$web3.provider.lookupAddress($web3.address).then((resolved) => {
-			if (resolved) ensName = resolved;
-			else ensName = '';
-		});
+		$web3.provider
+			.lookupAddress($web3.address)
+			.then((resolved) => {
+				if (resolved) ensName = resolved;
+				else ensName = '';
+			})
+			.catch(() => {});
 	}
 
 	let truncatedAddress: string;
@@ -44,7 +48,7 @@
 						stroke-linejoin="round"
 					/>
 				</svg>
-				<select class="network-select">
+				<select class="network-select" value={$web3.chainId}>
 					{#each NETWORKS as network}
 						<option value={network.chainId}>{network.name}</option>
 					{/each}
